@@ -1,3 +1,23 @@
+# 숭실대학교 2025 컴퓨터학부 소프트웨어 공모전: 지금은 vibe 
+## 금상 수상작 🏅 
+### 대회 개요
+- 방식: 제한시간 내 문제풀이 및 결과물, 증빙 제출  
+- 팀 구성: 인간1 + AI 3 이하
+### 사전 과제 (1주 전 사전 과제)
+[소공전2025_0702.pdf](https://github.com/user-attachments/files/21412373/2025_0702.pdf)
+- 중점 요소: front-end와 back-end를 아우르는 full stack 솔루션 역량
+- 과제 개요: OOO를 수행하는 웹서버(Java), AI서버(Python) 시스템 개발   
+   - 웹서버 요구사항
+      - HTTP 통신
+      - 세션 관리, 인증, 라우팅 처리
+      - 비즈니스 로직 처리 및 필요한 기능은 AI 서버에 요청
+   - AI 서버
+     - 웹서버의 요청을 받아 처리 및 결과 반환 (REST API 사용) 
+
+### 본선 주제 (3시간 개발)
+[소공전2025_0711_본선_IP추가.pdf](https://github.com/user-attachments/files/21412383/2025_0711_._IP.pdf)
+- 주제: 맞춤형 손글씨 디지털 아카이브 제작 및 감성 넘치는 이름 부여 (사전과제에서 OOO에 해당하는 부분)
+
 # ✉️ 손마음 (Heart-in-Hand) 
 
 <img width="1126" height="547" alt="image" src="https://github.com/user-attachments/assets/d9d7055c-758e-4247-b5fb-198533f905fb" />
