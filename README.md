@@ -8,6 +8,9 @@
 ## 💡 주요 기능
 
 1. **손글씨 업로드**: 이미지 업로드
+
+<img width="954" height="758" alt="image" src="https://github.com/user-attachments/assets/1aa48c50-3741-469e-8b6c-eca8a3b8e35d" />
+
 2. **OCR 처리**: AI 서버가 글귀 인식
 3. **글귀 저장**: 나만의 '글귀노트'에 자동 저장
 4. **글귀 감상**: 날짜별, 제목별 정렬된 감상 UI
