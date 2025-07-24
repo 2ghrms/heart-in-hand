@@ -1,0 +1,8 @@
+Flask
+pika
+Pillow
+gunicorn
+opencv-python-headless
+python-dotenv
+numpy
+requests

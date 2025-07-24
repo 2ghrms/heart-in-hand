@@ -1,0 +1,6 @@
+flask-server/__pycache__/
+*.pyc
+.env
+
+### static resources ###
+**/src/main/resources/static/**

@@ -1,0 +1,71 @@
+services:
+  spring-server:
+    build:
+      context: ./spring-server
+    container_name: spring-app
+    env_file:
+      - ./spring-server/src/main/resources/.env
+    ports:
+      - "8080:8080"
+    depends_on:
+      - mariadb
+      - rabbitmq
+    networks:
+      - backend
+
+  flask-server:
+    build:
+      context: ./flask-server
+    env_file:
+      - ./flask-server/.env
+    environment:
+      - NAVER_OCR_API_URL=${NAVER_OCR_API_URL}
+      - NAVER_OCR_SECRET_KEY=${NAVER_OCR_SECRET_KEY}
+    container_name: flask-app
+    ports:
+      - "5000:5000"
+    depends_on:
+      - rabbitmq
+    networks:
+      - backend
+  
+  frontend:
+    build:
+      context: ./note-web-app
+    container_name: frontend
+    ports:
+      - "3000:3000"
+    depends_on:
+      - spring-server
+    networks:
+      - backend
+  mariadb:
+    image: mariadb:10.5
+    container_name: mariadb
+    restart: always
+    environment:
+      MARIADB_ROOT_PASSWORD: rootpass
+      MARIADB_DATABASE: sg25_maria_db
+      MARIADB_USER: sg25_user
+      MARIADB_PASSWORD: sg25_pass
+    ports:
+      - "3306:3306"
+    networks:
+      - backend
+    volumes:
+      - mariadb-data:/var/lib/mysql
+
+  rabbitmq:
+    image: rabbitmq:3-management
+    container_name: rabbitmq
+    ports:
+      - "5672:5672"     # 
+      - "15672:15672"   # 
+    networks:
+      - backend
+
+networks:
+  backend:
+
+volumes:
+  mariadb-data: {}

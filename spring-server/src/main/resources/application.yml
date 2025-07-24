@@ -1,0 +1,48 @@
+spring:
+  profiles:
+    active: local
+  datasource:
+    driver-class-name: org.mariadb.jdbc.Driver
+    url: ${MARIA_DB_URL}
+    username: ${MARIA_DB_USERNAME}
+    password: ${MARIA_DB_PASSWORD}
+  jpa:
+    hibernate:
+      ddl-auto: update
+    properties:
+      hibernate:
+        dialect: org.hibernate.dialect.MySQL8Dialect
+        show_sql: true
+        format_sql: true
+        use_sql_comments: true
+        default_batch_fetch_size: 1000
+  rabbitmq:
+    host: ${RABBIT_MQ_HOST}
+    port: ${RABBIT_MQ_PORT}
+    username: ${RABBIT_MQ_USERNAME}
+    password: ${RABBIT_MQ_PASSWORD}
+
+jwt:
+  secret: ${JWT_KEY}
+  accessExpiration: 900000  # 15분 (밀리초)
+  refreshExpiration: 604800000  # 7일 (밀리초)
+
+logging:
+  level:
+    root: INFO
+    org.springframework.web: DEBUG
+    org.hibernate.SQL: debug
+    org.hibernate.type.descriptor.sql: trace
+
+server:
+  servlet:
+    session:
+      timeout: 30m  # 30분 유지
+
+flask:
+  base-url: ${FLASK_URL}
+
+ai:
+  openai:
+    api-key: ${OPENAI_API_KEY}
+    url: https://api.openai.com/v1/chat/completions
