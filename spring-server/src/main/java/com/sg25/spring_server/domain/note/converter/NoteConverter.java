@@ -17,9 +17,10 @@ public class NoteConverter {
     /**
      * Note 엔티티 생성
      */
-    public Note toEntity(String title, Member member) {
+    public Note toEntity(String title, String content, Member member) {
         return Note.builder()
                 .title(title)
+                .content(content)
                 .member(member)
                 .build();
     }
@@ -35,6 +36,7 @@ public class NoteConverter {
         return NoteResponseDTO.NoteViewResponse.builder()
                 .noteId(note.getId())
                 .title(note.getTitle())
+                .content(note.getContent())
                 .images(imageDTOList)
                 .build();
     }

@@ -22,8 +22,16 @@ logger = logging.getLogger(__name__)
 # ──────────────── 3. Flask App 생성 ────────────────
 app = Flask(__name__)
 
-RABBITMQ_URL = os.getenv("RABBITMQ_URL", "amqp://guest:guest@rabbitmq:5672/")
-RESULT_QUEUE = "note.analyze.result"
+MQ_URL = os.getenv('RABBITMQ_URL')
+MQ_RESULT_QUEUE = os.getenv('RABBITMQ_RESULT_QUEUE')
+
+# 환경 변수 로딩 확인 로그
+logger.info("🔍 ENV 체크 시작")
+logger.info(f"NAVER_OCR_API_URL: {os.getenv('NAVER_OCR_API_URL') or '❌ 없음'}")
+logger.info(f"NAVER_OCR_SECRET_KEY: {'✅ 있음' if os.getenv('NAVER_OCR_SECRET_KEY') else '❌ 없음'}")
+logger.info(f"RABBITMQ_URL: {os.getenv('RABBITMQ_URL') or '❌ 없음'}")
+logger.info(f"RABBITMQ_RESULT_QUEUE: {os.getenv('RABBITMQ_RESULT_QUEUE') or '❌ 없음'}")
+logger.info("✅ Flask 서버 시작")
 
 # ──────────────── 4. 이미지 분석 엔드포인트 ────────────────
 @app.route('/analyze', methods=['POST'])
@@ -53,13 +61,13 @@ def analyze():
 def send_result_to_mq(result):
     try:
         logger.info(f"📦 MQ 전송 데이터: {result}")
-        params = pika.URLParameters(RABBITMQ_URL)
+        params = pika.URLParameters(MQ_URL)
         connection = pika.BlockingConnection(params)
         channel = connection.channel()
-        channel.queue_declare(queue=RESULT_QUEUE, durable=True)
+        channel.queue_declare(queue=MQ_RESULT_QUEUE, durable=True)
         channel.basic_publish(
             exchange='',
-            routing_key=RESULT_QUEUE,
+            routing_key=MQ_RESULT_QUEUE,
             body=json.dumps(result),
             properties=pika.BasicProperties(delivery_mode=2)
         )
@@ -71,4 +79,5 @@ def send_result_to_mq(result):
 
 # ──────────────── 6. 실행 ────────────────
 if __name__ == '__main__':
+
     app.run(host='0.0.0.0', port=5000, debug=True)

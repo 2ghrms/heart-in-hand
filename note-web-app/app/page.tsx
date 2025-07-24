@@ -49,7 +49,7 @@ export default function LandingPage() {
           }}
         >
           {/* Overlay for better text readability */}
-          <div className="absolute inset-0 bg-gradient-to-r from-white/90 via-white/70 to-transparent"></div>
+          <div className="absolute inset-0 bg-gradient-to-r from-rose-500/10 via-orange-400/8 to-pink-500/6"></div>
         </div>
 
         {/* Content */}

@@ -22,6 +22,9 @@ public class Note extends BaseEntity {
     @Column(nullable = false, length = 20)
     private String title;
 
+    @Column(length = 256)
+    private String content;
+
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "member_id", nullable = false)
     private Member member;          // 작성자

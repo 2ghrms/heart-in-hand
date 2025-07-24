@@ -20,7 +20,7 @@ public class NoteImage extends BaseEntity {
     @Enumerated(EnumType.STRING)
     private NoteImageStatus noteImageStatus;                  // WAITING, PROCESSING, DONE, ERROR
 
-    @Lob
+    @Column(columnDefinition = "TEXT")
     private String recognizedText;     // 추출된 손글씨 결과
 
     @ManyToOne(fetch = FetchType.LAZY)

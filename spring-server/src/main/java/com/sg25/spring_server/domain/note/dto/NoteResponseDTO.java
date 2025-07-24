@@ -30,6 +30,7 @@ public class NoteResponseDTO {
     public static class NoteViewResponse {
         private Long noteId;
         private String title;
+        private String content;
         private List<NoteImageResponse> images;
     }
 

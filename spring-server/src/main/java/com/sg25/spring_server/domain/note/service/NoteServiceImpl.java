@@ -42,7 +42,7 @@ public class NoteServiceImpl implements NoteService {
     @Value("${flask.base-url}")
     private String flaskBaseUrl;
 
-    private static final String BASE_PATH = new File("src/main/resources/static/noteImages").getAbsolutePath() + "/";
+    private static final String BASE_PATH = new File("src/main/resources/static/noteImages").getAbsolutePath();
 
     @Override
     @Transactional
@@ -52,7 +52,7 @@ public class NoteServiceImpl implements NoteService {
                 .orElseThrow(() -> new GeneralException(ErrorStatus._NOT_FOUND));
 
         // 노트 저장
-        Note note = noteConverter.toEntity(request.getTitle(), member);
+        Note note = noteConverter.toEntity(request.getTitle(), request.getContent(), member);
         noteRepository.save(note);
 
         // 노트에서 ID 추출
@@ -60,7 +60,7 @@ public class NoteServiceImpl implements NoteService {
         // 사용자 이메일에서 아이디 부분 추출 (예: hogeun@example.com → hogeun)
         String emailPrefix = member.getEmail().split("@")[0];
         // 이메일/노트ID 기반 폴더 경로 설정
-        String userFolderPath = BASE_PATH + emailPrefix + "/" + noteId + "/";
+        String userFolderPath = BASE_PATH + "/" + emailPrefix + "/" + noteId + "/";
         // 폴더 없으면 생성
         File directory = new File(userFolderPath);
         if (!directory.exists()) {
@@ -70,13 +70,17 @@ public class NoteServiceImpl implements NoteService {
         // 이미지 저장
         List<NoteImage> imageEntities = new ArrayList<>();
 
+        log.info("📦 업로드된 이미지 개수: {}", request.getImages().size());
+
         for (MultipartFile file : request.getImages()) {
             String fileName = UUID.randomUUID() + "_" + file.getOriginalFilename();
             String storedPath = userFolderPath + fileName;
 
             try {
                 file.transferTo(new File(storedPath));
+                log.info("📸 저장 완료: {}", storedPath);
             } catch (IOException e) {
+                log.error("❌ 파일 저장 실패: {}", storedPath, e);
                 throw new GeneralException(ErrorStatus._FILE_UPLOAD_FAIL);
             }
 

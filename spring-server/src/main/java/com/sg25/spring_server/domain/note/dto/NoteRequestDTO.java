@@ -16,6 +16,7 @@ public class NoteRequestDTO {
     @Builder
     public static class CreateNoteRequest {
         private String title;
+        private String content;
         private List<MultipartFile> images;
     }
 

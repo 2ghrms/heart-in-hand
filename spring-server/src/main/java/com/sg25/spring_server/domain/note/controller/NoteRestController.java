@@ -44,6 +44,7 @@ public class NoteRestController {
     @PostMapping(consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
     public ApiResponse<NoteResponseDTO.NoteViewResponse> createNote(
             @Parameter(description = "노트 제목") @RequestPart("title") String title,
+            @Parameter(description = "노트 설명") @RequestPart("content") String content,
             @Parameter(description = "노트 이미지 파일들") @RequestPart("images") List<MultipartFile> images,
             HttpServletRequest request
     ) {
@@ -55,6 +56,7 @@ public class NoteRestController {
 
         NoteRequestDTO.CreateNoteRequest requestDTO = NoteRequestDTO.CreateNoteRequest.builder()
                 .title(title)
+                .content(content)
                 .images(images)
                 .build();
 

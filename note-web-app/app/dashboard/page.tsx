@@ -484,8 +484,6 @@ export default function DashboardPage() {
                         src={getFirstImageUrl(note) || "/placeholder.svg"}
                         alt="손글씨 이미지"
                         className="w-full h-32 object-cover rounded-md border border-rose-100"
-                        onError={imageUtils.handleImageError}
-                        onLoad={imageUtils.handleImageLoad}
                       />
                     </div>
                   )}

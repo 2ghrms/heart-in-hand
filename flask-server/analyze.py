@@ -1,10 +1,16 @@
 import requests
 import json
 import base64
+import time
 import os
 import logging
 import sys
 from dotenv import load_dotenv
+
+load_dotenv()  # .env 파일에서 환경변수 로드
+
+API_URL = os.getenv("NAVER_OCR_API_URL")
+SECRET_KEY = os.getenv("NAVER_OCR_SECRET_KEY")
 
 # 로깅 설정
 logging.basicConfig(
@@ -12,7 +18,6 @@ logging.basicConfig(
     format="%(asctime)s [%(levelname)s] %(message)s",
     handlers=[logging.StreamHandler(sys.stdout)]
 )
-
 
 def _detect_image_format(image_base64: str) -> str:
     """Base64 문자열에서 이미지 포맷(jpg·png·gif 등)을 추정해 반환한다.
