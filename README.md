@@ -17,6 +17,7 @@
 ### 본선 주제 (3시간 개발)
 [소공전2025_0711_본선_IP추가.pdf](https://github.com/user-attachments/files/21412383/2025_0711_._IP.pdf)
 - 주제: 맞춤형 손글씨 디지털 아카이브 제작 및 감성 넘치는 이름 부여 (사전과제에서 OOO에 해당하는 부분)
+- localhost FE 개발
 
 # ✉️ 손마음 (Heart-in-Hand) 
 
