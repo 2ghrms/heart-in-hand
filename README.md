@@ -1,6 +1,51 @@
-# sg25-7 
-## 노트 필기를 디지털로! 스마트 텍스트 변환
-### note-web-app (Web Application) & spring-server (Web server) & flask-server (AI server) 
+# 숭실대학교 2025 컴퓨터학부 소프트웨어 공모전: 지금은 vibe 
+## 금상 수상작 🏅 
+### 대회 개요
+- 방식: 제한시간 내 문제풀이 및 결과물, 증빙 제출  
+- 팀 구성: 인간1 + AI 3 이하
+### 사전 과제 (본선 1주 전 사전 과제)
+[소공전2025_0702.pdf](https://github.com/user-attachments/files/21412373/2025_0702.pdf)
+- 중점 요소: front-end와 back-end를 아우르는 full stack 솔루션 역량
+- 과제 개요: OOO를 수행하는 웹서버(Java), AI서버(Python) 시스템 개발   
+   - 웹서버 요구사항
+      - HTTP 통신
+      - 세션 관리, 인증, 라우팅 처리
+      - 비즈니스 로직 처리 및 필요한 기능은 AI 서버에 요청
+   - AI 서버
+     - 웹서버의 요청을 받아 처리 및 결과 반환 (REST API 사용) 
+
+### 본선 주제 (본선 당일 3시간 개발)
+[소공전2025_0711_본선_IP추가.pdf](https://github.com/user-attachments/files/21412383/2025_0711_._IP.pdf)
+- 주제: 맞춤형 손글씨 디지털 아카이브 제작 및 감성 넘치는 이름 부여 (사전과제에서 OOO에 해당하는 부분)
+- 결과물: localhost 웹 FE 개발
+
+# ✉️ 손마음 (Heart-in-Hand) 
+
+<img width="1126" height="547" alt="image" src="https://github.com/user-attachments/assets/d9d7055c-758e-4247-b5fb-198533f905fb" />
+
+**소중한 손글씨를 간직하다, 기억하다.**  
+부모님, 친구, 연인의 손글씨를 OCR 기술로 디지털화하여, 평생 간직할 수 있는 나만의 글귀 아카이브를 만들어보세요.
+
+## 💡 주요 기능
+
+1. **손글씨 업로드**: 이미지 업로드
+
+<img width="954" height="758" alt="image" src="https://github.com/user-attachments/assets/1aa48c50-3741-469e-8b6c-eca8a3b8e35d" />
+<img width="892" height="906" alt="image" src="https://github.com/user-attachments/assets/f76178b0-22c7-408d-965a-09993dcc5129" />
+
+2. **OCR 처리**: AI 서버가 글귀 인식 후 비동기로 저장
+<img width="1127" height="846" alt="image" src="https://github.com/user-attachments/assets/e3768c1b-6cce-4602-8fca-65ebf2a0e620" />
+
+3. **글귀 저장**: 나만의 '마음 보관함'에 저장
+<img width="1534" height="635" alt="image" src="https://github.com/user-attachments/assets/174494a3-f4e4-4247-a028-c84a9a5f44b2" />
+
+---
+
+# 프로젝트 구조
+### note-web-app (Web Application) 
+### spring-server (Web server) 
+### flask-server (AI server) 
+
 # 설치 및 실행방법
 ## IDE
 - Cursor
@@ -35,9 +80,17 @@
   OPENAI_API_KEY=your-dummy-api-key
   JWT_KEY=your-dummy-jwt-key
   ```
-  4. Web 환경변수 설정: `./note-web-app/`에 사용될 다음 항목을 **디렉토리 루트에 .env를 생성하여 직접 해당 값 입력**
+  3. Flask 서버 환경변수 설정: './flask-server/'에 사용될 다음 항목을 **디렉토리 루트에 .env를 생성하여 naver clova note ocr의 API URL과 키 값 입력**하고 이외의 값 그대로 입력
+  ```ini
+  API_URL = your-naver-clova-ocr-api-url
+  SECRET_KEY = your-naver-clova-ocr-key
+  RABBITMQ_URL=amqp://guest:guest@rabbitmq:5672/
+  RABBITMQ_RESULT_QUEUE=note.analyze.result
+  ```
+  4. Web 환경변수 설정: `./note-web-app/`에 사용될 다음 항목을 **디렉토리 루트에 .env를 생성하여 직접 해당 값 그대로 입력**
   ```ini
   SERVER_API_BASE_URL=http://spring-server:8080
+  NEXT_PUBLIC_API_BASE_URL=/api/proxy
   ```
   5. `docker-compose up --build` 로 미리 설정된 컨테이너 구성 실행
   6. `http://localhost:8080` 에서 API 가용
@@ -46,7 +99,7 @@
 ## Docker 미사용 시, Downloads & Settings
 
 ### download etc (docker 미사용 시)
-- nodejs
+- nodejs (npm or pnpm)
 
   https://nodejs.org/ko/download
   
@@ -76,46 +129,50 @@
   1. `git clone`을 통해 레포지토리 파일을 가져옴
   2.  Spring 서버 설정: `spring-server/src/main/resources/application.yml`에서 다음 항목을 **로컬 DB 정보에 맞게 직접 입력하거나 환경변수로 주입**하여 DB, MQ, gpt(키 발급), jwt(키 발급) (Maria DB와 Rabbit MQ는 로컬 실행 후 계정 세팅 필요)
 
-    - MARIA_DB_URL
-    - MARIA_DB_USERNAME
-    - MARIA_DB_PASSWORD 
-
-    - RABBIT_MQ_HOST
-    - RABBIT_MQ_PORT
-    - RABBIT_MQ_USERNAME
-    - RABBIT_MQ_PASSWORD
-
-    - FLASK_URL
-
-    - JWT_KEY
-
-    - OPEN_AI_KEY
-
-  3. Web 환경변수 설정: `./note-web-app/`에 사용될 다음 항목을 **디렉토리 루트에 .env를 생성하여 직접 해당 값 입력**
-    
+    ```ini
+  MARIA_DB_USERNAME=sg25_user
+  MARIA_DB_PASSWORD=sg25_pass
+  MARIA_DB_URL=jdbc:mariadb://mariadb:3306/mydb
+  RABBIT_MQ_HOST=rabbitmq
+  RABBIT_MQ_PORT=5672
+  RABBIT_MQ_USERNAME=guest
+  RABBIT_MQ_PASSWORD=guest
+  FLASK_URL=http://flask-app:5000
+  OPENAI_API_KEY=your-dummy-api-key
+  JWT_KEY=your-dummy-jwt-key
+  ```
+  3. Flask 서버 환경변수 설정: './flask-server/'에 사용될 다음 항목을 **디렉토리 루트에 .env를 생성하여 naver clova note ocr의 API URL과 키 값 입력**
   ```ini
-  SERVER_API_BASE_URL=http://localhost:8080
-  ```  
-  4. Flask 서버 설정: Flask 서버 디렉토리로 이동 후 라이브러리 설치
+  API_URL = your-naver-clova-ocr-api-url
+  SECRET_KEY = your-naver-clova-ocr-key
+  RABBITMQ_URL=amqp://guest:guest@rabbitmq:5672/
+  RABBITMQ_RESULT_QUEUE=note.analyze.result
+  ```
+  4. Web 환경변수 설정: `./note-web-app/`에 사용될 다음 항목을 **디렉토리 루트에 .env를 생성하여 직접 해당 값 입력**
+  ```ini
+  SERVER_API_BASE_URL=http://spring-server:8080
+  NEXT_PUBLIC_API_BASE_URL=/api/proxy
+  ```
+  5. Flask 서버 설정: Flask 서버 디렉토리로 이동 후 라이브러리 설치
 
      - 'pip install -r requirements.txt'
     
-  5. spring-server 실행 (spring-server 디렉토리 루트에서)
+  6. spring-server 실행 (spring-server 디렉토리 루트에서)
 
      - '.\gradlew bootRun'
      
-  6. flask-server 실행 (gunicorn 사용; flask-server 디렉토리 루트에서)
+  7. flask-server 실행 (gunicorn 사용; flask-server 디렉토리 루트에서)
 
      - 'gunicorn --bind 0.0.0.0:5000 app:app --workers 4 --threads 2'
 
-  7. `localhost:8080`을 통해서 API 가용
+  8. `localhost:8080`을 통해서 API 가용
 
-  8. web application을 위해서 의존성 설치 및 실행
+  9. web application을 위해서 의존성 설치 및 실행
 
      - 'npm install'
      - 'npm run dev'
     
-  9. `http://localhost:3000`를 통해서 웹 서비스 가용
+  10. `http://localhost:3000`를 통해서 웹 서비스 가용
 
 # 기술 명세     
 ## API 명세서
@@ -300,22 +357,19 @@ TypeScript
 Next.js 15
 
 ## 🧪 테스트
-Swagger UI를 통해 테스트 가능:
+
+### API
+Swagger UI를 통해 API 테스트 가능:
 
 http://localhost:8080/swagger-ui/index.html
 
 또는 Postman으로 직접 API 호출
+
+### Web site
+
+http://localhost:3000
   
 # 향후 고려사항
-## 서버 배포시 점검 사항:
-
-Secure, SameSite, Domain 설정 추가
-
-Exception Handling 구조 도입
-
-nginx를 도입 하여 TLS 인증서 설정, 로드밸런싱, 도메인 기반 라우팅 가능
-
-Redis 도입 시 jwt 인증 블랙리스트 외부 저장
 
 ## 서버 확장 고려사항
 
@@ -324,12 +378,4 @@ Flask 서버 다운 시 예외 처리	subscribe(..., error -> log.error(...)) �
 이미지 업로드 위치 분리	현재는 로컬 경로지만, S3 연동 시 storedPath를 URL로 확장할 수 있도록 구조 유지 가능
 
 병렬 전송 고려	향후 이미지 수가 많아지면 Flux.fromIterable().flatMap(...)을 활용한 병렬 처리 가능
-
-## 웹 개발 시 고려 사항
-
-CORS 설정	브라우저가 쿠키를 주고받기 위해 withCredentials 사용해야 함 (Access-Control-Allow-Credentials: true)
-
-SameSite 정책	Set-Cookie에 SameSite=None; Secure 설정 필요 (https 환경)
-
-로그인 응답	쿠키 외에도 memberId, name 등의 정보를 body에 담아 반환하면 프론트에서 분기 로직 작성 용이
 
