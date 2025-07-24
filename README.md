@@ -3,7 +3,7 @@
 ### 대회 개요
 - 방식: 제한시간 내 문제풀이 및 결과물, 증빙 제출  
 - 팀 구성: 인간1 + AI 3 이하
-### 사전 과제 (1주 전 사전 과제)
+### 사전 과제 (본선 1주 전 사전 과제)
 [소공전2025_0702.pdf](https://github.com/user-attachments/files/21412373/2025_0702.pdf)
 - 중점 요소: front-end와 back-end를 아우르는 full stack 솔루션 역량
 - 과제 개요: OOO를 수행하는 웹서버(Java), AI서버(Python) 시스템 개발   
@@ -14,10 +14,10 @@
    - AI 서버
      - 웹서버의 요청을 받아 처리 및 결과 반환 (REST API 사용) 
 
-### 본선 주제 (3시간 개발)
+### 본선 주제 (본선 당일 3시간 개발)
 [소공전2025_0711_본선_IP추가.pdf](https://github.com/user-attachments/files/21412383/2025_0711_._IP.pdf)
 - 주제: 맞춤형 손글씨 디지털 아카이브 제작 및 감성 넘치는 이름 부여 (사전과제에서 OOO에 해당하는 부분)
-- localhost FE 개발
+- 결과물: localhost 웹 FE 개발
 
 # ✉️ 손마음 (Heart-in-Hand) 
 
@@ -31,34 +31,20 @@
 1. **손글씨 업로드**: 이미지 업로드
 
 <img width="954" height="758" alt="image" src="https://github.com/user-attachments/assets/1aa48c50-3741-469e-8b6c-eca8a3b8e35d" />
+<img width="892" height="906" alt="image" src="https://github.com/user-attachments/assets/f76178b0-22c7-408d-965a-09993dcc5129" />
 
-2. **OCR 처리**: AI 서버가 글귀 인식
-3. **글귀 저장**: 나만의 '글귀노트'에 자동 저장
-4. **글귀 감상**: 날짜별, 제목별 정렬된 감상 UI
+2. **OCR 처리**: AI 서버가 글귀 인식 후 비동기로 저장
+<img width="1127" height="846" alt="image" src="https://github.com/user-attachments/assets/e3768c1b-6cce-4602-8fca-65ebf2a0e620" />
 
----
-
-## 🖼️ 사용 흐름
-
-### 1. 손글씨 이미지 업로드  
-사용자는 손글씨 편지를 업로드할 수 있습니다.  
-
----
-
-### 2. AI 글귀 인식  
-업로드된 이미지는 AI 서버로 전송되어 OCR 분석을 거칩니다.  
-
----
-
-### 3. 글귀 노트에 저장  
-인식된 글귀는 사용자의 '글귀노트'에 자동으로 저장됩니다.  
+3. **글귀 저장**: 나만의 '마음 보관함'에 저장
+<img width="1534" height="635" alt="image" src="https://github.com/user-attachments/assets/174494a3-f4e4-4247-a028-c84a9a5f44b2" />
 
 ---
 
 # 프로젝트 구조
 ### note-web-app (Web Application) 
 ### spring-server (Web server) 
-### flask-server (OCR server) 
+### flask-server (AI server) 
 
 # 설치 및 실행방법
 ## IDE
@@ -94,12 +80,14 @@
   OPENAI_API_KEY=your-dummy-api-key
   JWT_KEY=your-dummy-jwt-key
   ```
-  3. Flask 서버 환경변수 설정: './flask-server/'에 사용될 다음 항목을 **디렉토리 루트에 .env를 생성하여 naver clova note ocr의 API URL과 키 값 입력**
+  3. Flask 서버 환경변수 설정: './flask-server/'에 사용될 다음 항목을 **디렉토리 루트에 .env를 생성하여 naver clova note ocr의 API URL과 키 값 입력**하고 이외의 값 그대로 입력
   ```ini
   API_URL = your-naver-clova-ocr-api-url
   SECRET_KEY = your-naver-clova-ocr-key
+  RABBITMQ_URL=amqp://guest:guest@rabbitmq:5672/
+  RABBITMQ_RESULT_QUEUE=note.analyze.result
   ```
-  4. Web 환경변수 설정: `./note-web-app/`에 사용될 다음 항목을 **디렉토리 루트에 .env를 생성하여 직접 해당 값 입력**
+  4. Web 환경변수 설정: `./note-web-app/`에 사용될 다음 항목을 **디렉토리 루트에 .env를 생성하여 직접 해당 값 그대로 입력**
   ```ini
   SERVER_API_BASE_URL=http://spring-server:8080
   NEXT_PUBLIC_API_BASE_URL=/api/proxy
@@ -111,7 +99,7 @@
 ## Docker 미사용 시, Downloads & Settings
 
 ### download etc (docker 미사용 시)
-- nodejs
+- nodejs (npm or pnpm)
 
   https://nodejs.org/ko/download
   
@@ -141,24 +129,24 @@
   1. `git clone`을 통해 레포지토리 파일을 가져옴
   2.  Spring 서버 설정: `spring-server/src/main/resources/application.yml`에서 다음 항목을 **로컬 DB 정보에 맞게 직접 입력하거나 환경변수로 주입**하여 DB, MQ, gpt(키 발급), jwt(키 발급) (Maria DB와 Rabbit MQ는 로컬 실행 후 계정 세팅 필요)
 
-    - MARIA_DB_URL
-    - MARIA_DB_USERNAME
-    - MARIA_DB_PASSWORD 
-
-    - RABBIT_MQ_HOST
-    - RABBIT_MQ_PORT
-    - RABBIT_MQ_USERNAME
-    - RABBIT_MQ_PASSWORD
-
-    - FLASK_URL
-
-    - JWT_KEY
-
-    - OPEN_AI_KEY
+    ```ini
+  MARIA_DB_USERNAME=sg25_user
+  MARIA_DB_PASSWORD=sg25_pass
+  MARIA_DB_URL=jdbc:mariadb://mariadb:3306/mydb
+  RABBIT_MQ_HOST=rabbitmq
+  RABBIT_MQ_PORT=5672
+  RABBIT_MQ_USERNAME=guest
+  RABBIT_MQ_PASSWORD=guest
+  FLASK_URL=http://flask-app:5000
+  OPENAI_API_KEY=your-dummy-api-key
+  JWT_KEY=your-dummy-jwt-key
+  ```
   3. Flask 서버 환경변수 설정: './flask-server/'에 사용될 다음 항목을 **디렉토리 루트에 .env를 생성하여 naver clova note ocr의 API URL과 키 값 입력**
   ```ini
   API_URL = your-naver-clova-ocr-api-url
   SECRET_KEY = your-naver-clova-ocr-key
+  RABBITMQ_URL=amqp://guest:guest@rabbitmq:5672/
+  RABBITMQ_RESULT_QUEUE=note.analyze.result
   ```
   4. Web 환경변수 설정: `./note-web-app/`에 사용될 다음 항목을 **디렉토리 루트에 .env를 생성하여 직접 해당 값 입력**
   ```ini
